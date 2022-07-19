@@ -104,4 +104,28 @@ router.put("/deposit", async (req, res) => {
 	return res.status(paymentAccepted.code).json(paymentAccepted);
 })
 
+router.post("/verify", async (req, res) => {
+	if (!req.body) {
+		return {
+			error: true,
+			code: 401,
+			msg: "Missing fields"
+		}
+	}
+
+	const {
+		id = null,
+		document_type = null,
+		image_urls = null
+	} = req.body;
+
+	const verifactionUploaded = await usersController.uploadAccountConfirmationDocuments({
+		id,
+		document_type,
+		image_urls
+	})
+
+	return res.status(verifactionUploaded.code).json(verifactionUploaded);
+})
+
 module.exports = router;

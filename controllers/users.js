@@ -1,6 +1,7 @@
 const { isValidObjectId } = require("mongoose");
 const usersModel = require("../models/user.js");
 const accountVerficationModel = require("../models/account_confirmation.js");
+const { URL } = require("url");
 
 /* 
 
@@ -257,6 +258,66 @@ async function setCap({
 }
 
 async function uploadAccountConfirmationDocuments({ id, document_type, image_urls }) {
+	if (!id || !document_type || !image_urls || typeof image_urls !== "object" || image_urls.length === 0) {
+		return {
+			error: true,
+			code: 401,
+			msg: "Missing/Invalid fields"
+		}
+	}
+
+	if (!isValidObjectId(id)) {
+		return {
+			error: true,
+			code: 401,
+			msg: "Invalid account id"
+		}
+	}
+
+	const allowedHosts = [`localhost:${process.env.PORT || 2001}`];
+
+	for (let url of image_urls) {
+		const parsedURL = new URL(url);
+
+		if (!allowedHosts.includes(parsedURL.host)) {
+			return {
+				error: true,
+				code: 401,
+				msg: "Please upload your images with us, don't provide links"
+			}
+		}
+	}
+
+	try {
+		const newConfirmation = new accountVerficationModel({
+			account_id: id,
+			image_urls: image_urls,
+			document_type: document_type
+		})
+
+		const confirmationSaved = await newConfirmation.save();
+
+		return {
+			error: false,
+			code: 200,
+			data: confirmationSaved
+		}
+
+	} catch (err) {
+		if (err.code === 11000) {
+			return {
+				error: true,
+				code: 401,
+				msg: "You have already uploaded your confirmation documents, please wait for your account verifaction to be processed"
+			}
+		}
+
+		return {
+			error: true,
+			code: 500,
+			msg: "Server was unable to process your request, please try again later"
+		}
+	}
 
 }
 

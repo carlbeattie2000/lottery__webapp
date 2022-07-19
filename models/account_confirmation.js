@@ -4,7 +4,8 @@ const crypto = require("crypto");
 const accountConfirmationSchema = new Schema({
 	reference: {
 		type: String,
-		default: crypto.randomBytes(14).toString("hex")
+		default: crypto.randomBytes(4).toString("hex"),
+		unique: true
 	},
 	account_id: {
 		type: String,
