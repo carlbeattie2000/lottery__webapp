@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const createRequiredFolders = require("./utils/create_needed_folders");
 
 require("dotenv").config();
 
@@ -28,14 +29,6 @@ app.use(express.static(__dirname + "/public"));
 
 app.use("/api", userRouter);
 app.use("/admin", adminRouter);
-
-app.get("public/images/verifaction/*", (req, res, next) => {
-	if (!req.session.admin) {
-		return res.sendStatus(401);
-	}
-
-	next();
-})
 
 app.listen(PORT, () => {
 	console.log(`Server running on PORT ${PORT}`);

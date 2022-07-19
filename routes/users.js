@@ -121,6 +121,7 @@ router.post("/create_verfication_request", async (req, res) => {
 		const formParsed = await new Promise((resolve, reject) => {
 			form.parse(req, (err, fields, files) => {
 				if (err) {
+					console.log(err);
 					if (files) {
 						for (let key of Object.keys(files)) {
 							fs.rm(files[key].filepath);
