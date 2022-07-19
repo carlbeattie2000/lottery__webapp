@@ -1,5 +1,7 @@
 const usersController = require("../controllers/users.js");
 const authMiddleware = require("../utils/auth_middleware.js");
+const formidable = require("formidable");
+const fs = require("fs");
 
 const express = require("express");
 
@@ -105,27 +107,84 @@ router.put("/deposit", async (req, res) => {
 })
 
 router.post("/verify", async (req, res) => {
-	if (!req.body) {
-		return {
-			error: true,
-			code: 401,
-			msg: "Missing fields"
-		}
-	}
+	const validImageMimeTypes = ["image/jpeg", "image/png"];
+	const maximumImageSizeInBytes = 5 * 1e+6;
 
-	const {
-		id = null,
-		document_type = null,
-		image_urls = null
-	} = req.body;
+	const uploadDirectory = __dirname + "../../public/images/verifaction/";
 
-	const verifactionUploaded = await usersController.uploadAccountConfirmationDocuments({
-		id,
-		document_type,
-		image_urls
+	const form = formidable({
+		multiples: true,
+		uploadDir: uploadDirectory
 	})
 
-	return res.status(verifactionUploaded.code).json(verifactionUploaded);
+
+	try {
+		const formParsed = await new Promise((resolve, reject) => {
+			form.parse(req, (err, fields, files) => {
+				if (err) {
+					if (files) {
+						for (let key of Object.keys(files)) {
+							fs.rm(files[key].filepath);
+						}
+					}
+
+					reject({
+						error: true,
+						code: 500,
+						msg: "We are unable to process your request, please try again later"
+					});
+					return
+				}
+
+				const imageUrls = [];
+				const filePaths = [];
+
+				for (let key of Object.keys(files)) {
+					const file = files[key];
+
+					if (file.size > maximumImageSizeInBytes || !validImageMimeTypes.includes(file.mimetype) && file.size !== 0) {
+						reject({
+							error: true,
+							code: 400,
+							msg: "Image size exceeded maximum / Image not valid format"
+						})
+					}
+
+					const newFileName = file.newFilename + "." + file.originalFilename.split(".")[1];
+
+					fs.rename(uploadDirectory+file.newFilename, uploadDirectory+newFileName, () => {});
+
+					filePaths.push(uploadDirectory+newFileName);
+
+					if (file.size == 0)	continue
+
+					imageUrls.push("http://localhost:2001/images/verifaction/"+newFileName);
+				}
+
+				resolve({
+					fields,
+					imageUrls,
+					filePaths
+				})
+			})
+		})
+
+		const verifactionUploaded = await usersController.uploadAccountConfirmationDocuments({
+			id: formParsed.fields.user_id,
+			document_type: formParsed.fields.document_type,
+			image_urls: formParsed.imageUrls
+		})
+		
+		if (verifactionUploaded.error) {
+			for (let path of formParsed.filePaths) {
+				fs.rm(path);
+			}
+		}
+
+		return res.status(verifactionUploaded.code).json(verifactionUploaded);
+	} catch (err) {
+		return res.status(err.code).json(err);
+	}
 })
 
 module.exports = router;

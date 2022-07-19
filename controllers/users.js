@@ -258,11 +258,30 @@ async function setCap({
 }
 
 async function uploadAccountConfirmationDocuments({ id, document_type, image_urls }) {
+	const validDocumentTypes = {
+		"licence": {
+			images_required: 2
+		},
+		"passport": {
+			images_required: 1
+		}
+	};
+
+	console.log(image_urls);
+
 	if (!id || !document_type || !image_urls || typeof image_urls !== "object" || image_urls.length === 0) {
 		return {
 			error: true,
 			code: 401,
 			msg: "Missing/Invalid fields"
+		}
+	}
+
+	if (!validDocumentTypes[document_type] || image_urls.length !== validDocumentTypes[document_type].images_required) {
+		return {
+			error: true,
+			code: 401,
+			msg: "Missing/ Invalid fields"
 		}
 	}
 
