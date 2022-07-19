@@ -106,7 +106,7 @@ router.put("/deposit", async (req, res) => {
 	return res.status(paymentAccepted.code).json(paymentAccepted);
 })
 
-router.post("/verify", async (req, res) => {
+router.post("/create_verfication_request", async (req, res) => {
 	const validImageMimeTypes = ["image/jpeg", "image/png"];
 	const maximumImageSizeInBytes = 5 * 1e+6;
 
@@ -116,7 +116,6 @@ router.post("/verify", async (req, res) => {
 		multiples: true,
 		uploadDir: uploadDirectory
 	})
-
 
 	try {
 		const formParsed = await new Promise((resolve, reject) => {
@@ -185,6 +184,20 @@ router.post("/verify", async (req, res) => {
 	} catch (err) {
 		return res.status(err.code).json(err);
 	}
+})
+
+router.get("/verify_form", (req, res) => {
+	res.send(
+	`
+		<form action="/api/verify" method="POST" enctype="multipart/form-data">
+			<input type="file" name="front">
+			<input type="file" name="back">
+			<input type="text" name="user_id">
+			<input type="text" name="document_type">
+			<button type="submit">UPLOAD</button>
+		</form>
+	`
+	)
 })
 
 module.exports = router;
