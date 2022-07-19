@@ -255,7 +255,7 @@ async function setCap({
 	}
 }
 
-async function requestAccountConfirmation({ accountId, imagesReferences }) {
+async function uploadAccountConfirmationDocuments({ id, document_type, image_urls }) {
 
 }
 
@@ -310,7 +310,6 @@ async function deposit({ id, amount }) {
 			data: newUserTransaction
 		}
 	} catch (err) {
-		console.log(err);
 		return {
 			error: true,
 			code: 500,
