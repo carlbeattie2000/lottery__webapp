@@ -29,6 +29,14 @@ app.use(express.static(__dirname + "/public"));
 app.use("/api", userRouter);
 app.use("/admin", adminRouter);
 
+app.get("public/images/verifaction/*", (req, res, next) => {
+	if (!req.session.admin) {
+		return res.sendStatus(401);
+	}
+
+	next();
+})
+
 app.listen(PORT, () => {
 	console.log(`Server running on PORT ${PORT}`);
 })

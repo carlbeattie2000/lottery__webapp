@@ -110,7 +110,7 @@ router.post("/create_verfication_request", async (req, res) => {
 	const validImageMimeTypes = ["image/jpeg", "image/png"];
 	const maximumImageSizeInBytes = 5 * 1e+6;
 
-	const uploadDirectory = __dirname + "../../public/images/verifaction/";
+	const uploadDirectory = __dirname + "../../data/images/verifaction/";
 
 	const form = formidable({
 		multiples: true,
@@ -157,7 +157,7 @@ router.post("/create_verfication_request", async (req, res) => {
 
 					if (file.size == 0)	continue
 
-					imageUrls.push("http://localhost:2001/images/verifaction/"+newFileName);
+					imageUrls.push("http://localhost:2001/data/images/verifaction/"+newFileName);
 				}
 
 				resolve({
@@ -189,7 +189,7 @@ router.post("/create_verfication_request", async (req, res) => {
 router.get("/verify_form", (req, res) => {
 	res.send(
 	`
-		<form action="/api/verify" method="POST" enctype="multipart/form-data">
+		<form action="/api/create_verfication_request" method="POST" enctype="multipart/form-data">
 			<input type="file" name="front">
 			<input type="file" name="back">
 			<input type="text" name="user_id">

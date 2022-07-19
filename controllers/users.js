@@ -267,8 +267,6 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 		}
 	};
 
-	console.log(image_urls);
-
 	if (!id || !document_type || !image_urls || typeof image_urls !== "object" || image_urls.length === 0) {
 		return {
 			error: true,
