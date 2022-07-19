@@ -1,5 +1,6 @@
 const { isValidObjectId } = require("mongoose");
 const usersModel = require("../models/user.js");
+const accountVerficationModel = require("../models/account_confirmation.js");
 
 /* 
 
@@ -402,7 +403,7 @@ module.exports = {
 	register,
 	login,
 	setCap,
-	requestAccountConfirmation,
+	uploadAccountConfirmationDocuments,
 	deposit,
 	payForGame
 }
