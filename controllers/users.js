@@ -279,7 +279,7 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 	for (let url of image_urls) {
 		const parsedURL = new URL(url);
 
-		if (!allowedHosts.includes(parsedURL.host)) {
+		if (!allowedHosts.includes(parsedURL.host) || !parsedURL.pathname.includes("/images/verifaction")) {
 			return {
 				error: true,
 				code: 401,
