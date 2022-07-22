@@ -1,0 +1,15 @@
+@import "./utils/variables";
+
+.core-nav {
+	background-color: $bg;
+	padding: .5rem;
+	ul {
+		li {
+			a {
+				font-size: $m-font;
+				color: $white;
+			}
+		}
+	}
+}
+

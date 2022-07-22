@@ -13,9 +13,12 @@
   },
   "scripts": {
     "dev": "nodemon index",
-    "start": "node index"
+    "start": "node index",
+    "sass:compile": "node-sass -o public/css/ public/scss/",
+    "sass:watch": "node-sass -o public/css/ public/scss/ -w"
   },
   "devDependencies": {
+    "node-sass": "^7.0.1",
     "nodemon": "^2.0.19"
   }
 }
