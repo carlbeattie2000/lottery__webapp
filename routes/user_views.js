@@ -10,6 +10,14 @@ router.get("/login", (req, res) => {
 
 })
 
+router.get("/register", (req, res) => {
+
+})
+
+router.get("/confirm_account", (req, res) => {
+	
+})
+
 router.get("/home", (req, res) => {
 
 })
@@ -39,7 +47,7 @@ router.get("/browse_games", (req, res) => {
 })
 
 router.get("/game/id", (req, res) => {
-	
+
 })
 
 router.get("/results", (req, res) => {
