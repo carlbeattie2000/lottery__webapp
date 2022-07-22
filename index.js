@@ -10,6 +10,7 @@ const app = express();
 
 const userRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
+const userViewsRouter = require("./routes/user_views");
 
 mongoose.connect(process.env.MONGOOSE_CONNECTION_URI);
 
@@ -29,6 +30,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.use("/api", userRouter);
 app.use("/admin", adminRouter);
+app.use("/", userViewsRouter);
 
 app.listen(PORT, () => {
 	console.log(`Server running on PORT ${PORT}`);
