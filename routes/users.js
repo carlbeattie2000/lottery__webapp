@@ -2,6 +2,7 @@ const usersController = require("../controllers/users.js");
 const authMiddleware = require("../utils/auth_middleware.js");
 const formidable = require("formidable");
 const fs = require("fs");
+const log = require("../utils/logger");
 
 const express = require("express");
 
@@ -183,6 +184,8 @@ router.post("/create_verfication_request", async (req, res) => {
 
 		return res.status(verifactionUploaded.code).json(verifactionUploaded);
 	} catch (err) {
+		log({type: "error", msg: err})
+		
 		return res.status(err.code).json(err);
 	}
 })

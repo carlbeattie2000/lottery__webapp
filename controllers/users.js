@@ -2,6 +2,7 @@ const { isValidObjectId } = require("mongoose");
 const usersModel = require("../models/user.js");
 const accountVerficationModel = require("../models/account_confirmation.js");
 const { URL } = require("url");
+const log = require("../utils/logger");
 
 /* 
 
@@ -144,6 +145,8 @@ async function register({
 			data: userRegistered
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -204,6 +207,8 @@ async function login({
 			data: usersAccountFoundToObject
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -249,6 +254,8 @@ async function setCap({
 			data: userUpdated
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -306,6 +313,8 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 			}
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -329,6 +338,8 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 		}
 
 	} catch (err) {
+		log({type: "error", msg: error});
+
 		if (err.code === 11000) {
 			return {
 				error: true,
@@ -397,6 +408,8 @@ async function deposit({ id, amount }) {
 			data: newUserTransaction
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -477,6 +490,8 @@ async function payForGame({ id, cost, quantity }) {
 
 		return addUserTransaction
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
