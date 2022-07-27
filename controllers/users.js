@@ -293,15 +293,23 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 
 	const allowedHosts = [`localhost:${process.env.PORT || 2001}`];
 
-	for (let url of image_urls) {
-		const parsedURL = new URL(url);
+	try {
+		for (let url of image_urls) {
+			const parsedURL = new URL(url);
 
-		if (!allowedHosts.includes(parsedURL.host) || !parsedURL.pathname.includes("/images/verifaction")) {
-			return {
-				error: true,
-				code: 401,
-				msg: "Please upload your images with us, don't provide links"
+			if (!allowedHosts.includes(parsedURL.host) || !parsedURL.pathname.includes("/images/verifaction")) {
+				return {
+					error: true,
+					code: 401,
+					msg: "Please upload your images with us, don't provide links"
+				}
 			}
+		}
+	} catch (err) {
+		return {
+			error: true,
+			code: 500,
+			msg: "INVALID_URL"
 		}
 	}
 
