@@ -6,6 +6,13 @@
 
 #### Setting up .env file
 
+Run either of the following
+```
+npm i
+
+yarn install
+```
+
 Create a new file in the top directory nammed .env
 Add the following variables and fill out accordingly
 
@@ -21,4 +28,11 @@ CURRENCY_SYMBOL=£
 
 GMAIL_EMAIL=
 GMAIL_PASS=
+```
+
+Now run the application
+```
+npm run dev || start
+
+yarn dev || start
 ```
