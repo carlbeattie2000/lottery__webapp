@@ -122,7 +122,7 @@ router.post("/create_verfication_request", async (req, res) => {
 		const formParsed = await new Promise((resolve, reject) => {
 			form.parse(req, (err, fields, files) => {
 				if (err) {
-					console.log(err);
+					log({type: "error", msg: err})
 					if (files) {
 						for (let key of Object.keys(files)) {
 							fs.rm(files[key].filepath);
@@ -178,7 +178,7 @@ router.post("/create_verfication_request", async (req, res) => {
 		
 		if (verifactionUploaded.error) {
 			for (let path of formParsed.filePaths) {
-				fs.rm(path);
+				fs.rm(path, () => {});
 			}
 		}
 
