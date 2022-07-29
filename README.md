@@ -4,7 +4,7 @@
 - MongoDB
 - Gmail or mail service of your choice
 
-#### Setting up .env file
+#### Setting up project
 
 Run either of the following
 ```
