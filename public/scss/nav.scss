@@ -5,14 +5,14 @@
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	padding: 2rem;
+	padding: 1rem;
 
 	&--logo {
 		padding: 1rem;
 		border-radius: 1.5rem;
 		transition: background-color .3s ease-in-out;
 		img {
-			width: 12rem;
+			width: 10rem;
 		}
 
 		&:hover {
@@ -36,7 +36,7 @@
 			cursor: pointer;
 			a {
 				color: $white;
-				font-size: 2rem;
+				font-size: 1.4rem;
 				text-decoration: none;
 				font-weight: 800;
 				text-transform: uppercase;
@@ -64,7 +64,7 @@
 			cursor: pointer;
 			a {
 				color: $white;
-				font-size: 2rem;
+				font-size: 1.4rem;
 				text-decoration: none;
 				transition: color .3s ease-in-out;
 				text-transform: uppercase;

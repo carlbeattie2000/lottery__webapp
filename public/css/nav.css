@@ -3,13 +3,13 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 2rem; }
+  padding: 1rem; }
   .core-nav--logo {
     padding: 1rem;
     border-radius: 1.5rem;
     transition: background-color .3s ease-in-out; }
     .core-nav--logo img {
-      width: 12rem; }
+      width: 10rem; }
     .core-nav--logo:hover {
       background-color: #3460F2; }
   .core-nav--links {
@@ -27,7 +27,7 @@
       cursor: pointer; }
       .core-nav--links li a {
         color: #fdfdfd;
-        font-size: 2rem;
+        font-size: 1.4rem;
         text-decoration: none;
         font-weight: 800;
         text-transform: uppercase; }
@@ -49,7 +49,7 @@
       cursor: pointer; }
       .core-nav--actions li a {
         color: #fdfdfd;
-        font-size: 2rem;
+        font-size: 1.4rem;
         text-decoration: none;
         transition: color .3s ease-in-out;
         text-transform: uppercase;
