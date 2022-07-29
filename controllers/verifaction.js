@@ -1,8 +1,12 @@
+const { unlink } = require("fs");
+const { dirname } = require("path");
+
 const verifactionModel = require("../models/account_confirmation");
 const userModel = require("../models/user");
 
 const { isValidObjectId } = require("mongoose");
 const emailUtil = require("../utils/emails");
+const log = require("../utils/logger");
 
 async function findVerifactionRequestById(id) {
 	if (!id || !isValidObjectId(id)) return {
@@ -88,7 +92,7 @@ async function confirmVerifactionRequest(requestId) {
 	}
 
 	// Sign off at bottom of email should be the admin currently logged in accepting the request
-	email.sendEmail(accountDocument.email, 
+	emailUtil.sendEmail(accountDocument.email, 
 		`[Lucky Lotto] ${accountDocument.first_name} your account has been verified!`,
 		`Dear ${accountDocument.first_name} ${accountDocument.last_name},
 		We've reviewed the account document's you sent us, we're happy to confirm we can verify
@@ -101,8 +105,21 @@ async function confirmVerifactionRequest(requestId) {
 		Carl
 		Lucky Lotto Support Team
 
-		<h1>Be Aware. Be Gamble Aware.</h1>`)
+		<h1>Be Aware. Be Gamble Aware.</h1>`);
+
 	// Delete stored images
+	const imagesPath = dirname(require.main.filename) + "/data/images/verifaction/";
+
+	for (let verifactionImage of verifactionDocument.image_urls) {
+		const fileName = verifactionImage.split("http://localhost:2001/data/images/verifaction/")[1];
+
+		try {
+			await unlink(imagesPath+fileName, () => {});
+		} catch (err) {
+			log({type: "error", msg: err});
+		}
+
+	}
 
 	await verifactionDocument.remove();
 
