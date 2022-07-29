@@ -61,4 +61,14 @@ router.put("/confirm_account/:request_id", async (req, res) => {
 	res.status(removedDocument.code).json(removedDocument);
 })
 
+router.put("/decline_account/:request_id", async (req, res) => {
+	const requestId = req.params.request_id;
+
+	if (!requestId) return res.sendStatus(400);
+
+	const removedDocument = await verifactionController.declineVerifactionRequest(requestId);
+
+	res.status(removedDocument.code).json(removedDocument);
+})
+
 module.exports = router;
