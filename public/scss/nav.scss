@@ -2,12 +2,97 @@
 
 .core-nav {
 	background-color: $bg;
-	padding: .5rem;
-	ul {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: 2rem;
+
+	&--logo {
+		padding: 1rem;
+		border-radius: 1.5rem;
+		transition: background-color .3s ease-in-out;
+		img {
+			width: 12rem;
+		}
+
+		&:hover {
+			background-color: $bg-hover;
+		}
+	}
+
+	&--links {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 2rem;
+		list-style: none;
+		height: 100%;
+
 		li {
+			height: 100%;
+			padding: 1rem;
+			border-radius: 1.5rem;
+			transition: background-color .3s ease-in-out;
+			text-align: center;
+			cursor: pointer;
 			a {
-				font-size: $m-font;
 				color: $white;
+				font-size: 2rem;
+				text-decoration: none;
+				font-weight: 800;
+				text-transform: uppercase;
+			}
+			&:hover {
+				background-color: $bg-hover;
+			}
+		}
+	}
+
+	&--actions {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
+		list-style: none;
+		height: 100%;
+
+		li {
+			height: 100%;
+			padding: 1rem;
+			border-radius: 1.5rem;
+			transition: background-color .3s ease-in-out, border-color .3s ease-in-out;
+			text-align: center;
+			border: .1rem solid transparent;
+			cursor: pointer;
+			a {
+				color: $white;
+				font-size: 2rem;
+				text-decoration: none;
+				transition: color .3s ease-in-out;
+				text-transform: uppercase;
+				font-weight: 800;
+			}
+		}
+
+		.white-bordered {
+				border: .1rem solid $white;
+				border-radius: 1.5rem;
+				&:hover {
+					background-color: rgba(255, 255, 255, 0.3);
+				}
+		}
+
+		.non-bordered {
+			color: $bg;
+			background-color: $white;
+			&:hover {
+				background-color: $bg-hover;
+				border-color: transparent;
+				a {
+					color: $white;
+				}
+			}
+
+			a {
+				color: $bg;
 			}
 		}
 	}
