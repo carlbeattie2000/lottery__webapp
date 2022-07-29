@@ -274,24 +274,6 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 		}
 	};
 
-	const userDocument = await usersModel.findById(id);
-
-	if (!userDocument) {
-		return {
-			error: true,
-			code: 404,
-			msg: "User not found"
-		}
-	}
-
-	if (userDocument.confirmed || userDocument.blacked_listed) {
-		return {
-			error :true,
-			code: 400,
-			msg: "Your account is already verified"
-		}
-	}
-
 	if (!id || !document_type || !image_urls || typeof image_urls !== "object" || image_urls.length === 0) {
 		return {
 			error: true,
@@ -313,6 +295,34 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 			error: true,
 			code: 401,
 			msg: "Invalid account id"
+		}
+	}
+
+	const userDocument = await usersModel.findById(id);
+
+	if (!userDocument) {
+		return {
+			error: true,
+			code: 404,
+			msg: "User not found"
+		}
+	}
+
+	if (userDocument.confirmed || userDocument.blacked_listed) {
+		return {
+			error :true,
+			code: 400,
+			msg: "Your account is already verified"
+		}
+	}
+
+	const verifactionDocument = await accountVerficationModel.findOne({ account_id: id });
+
+	if (verifactionDocument) {
+		return {
+			error: true,
+			code: 400,
+			msg: "You have already submitted your verifaction request"
 		}
 	}
 
