@@ -186,7 +186,7 @@ router.post("/create_verfication_request", async (req, res) => {
 	} catch (err) {
 		log({type: "error", msg: err})
 		
-		return res.status(err.code).json(err);
+		return res.status(500).json(err);
 	}
 })
 
