@@ -1,6 +1,8 @@
 const verifactionModel = require("../models/account_confirmation");
 const userModel = require("../models/user");
+
 const { isValidObjectId } = require("mongoose");
+const emailUtil = require("../utils/emails");
 
 async function findVerifactionRequestById(id) {
 	if (!id || !isValidObjectId(id)) return {
@@ -85,7 +87,21 @@ async function confirmVerifactionRequest(requestId) {
 		}
 	}
 
-	// Send email/notifaction to the user informing them there account has been accepted
+	// Sign off at bottom of email should be the admin currently logged in accepting the request
+	email.sendEmail(accountDocument.email, 
+		`[Lucky Lotto] ${accountDocument.first_name} your account has been verified!`,
+		`Dear ${accountDocument.first_name} ${accountDocument.last_name},
+		We've reviewed the account document's you sent us, we're happy to confirm we can verify
+		they're correct.
+
+		You can now visit our website and enter this weeks lucky lotto draw.
+
+		Good Luck,
+
+		Carl
+		Lucky Lotto Support Team
+
+		<h1>Be Aware. Be Gamble Aware.</h1>`)
 	// Delete stored images
 
 	await verifactionDocument.remove();
