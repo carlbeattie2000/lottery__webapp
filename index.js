@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const createRequiredFolders = require("./utils/create_needed_folders");
+const log = require("./utils/logger");
 
 require("dotenv").config();
 
@@ -31,6 +32,12 @@ app.use(express.static(__dirname + "/public"));
 app.use("/api", userRouter);
 app.use("/admin", adminRouter);
 app.use("/", userViewsRouter);
+
+app.get("*", (req, res) => {
+	log({type: "info", msg: `User tried to use path:[${req.path}]`});
+	
+	res.render("404", {path: req.path});
+})
 
 app.listen(PORT, () => {
 	console.log(`Server running on PORT ${PORT}`);

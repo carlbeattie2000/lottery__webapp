@@ -2,6 +2,7 @@ const usersController = require("../controllers/users.js");
 const authMiddleware = require("../utils/auth_middleware.js");
 const formidable = require("formidable");
 const fs = require("fs");
+const log = require("../utils/logger");
 
 const express = require("express");
 
@@ -121,7 +122,7 @@ router.post("/create_verfication_request", async (req, res) => {
 		const formParsed = await new Promise((resolve, reject) => {
 			form.parse(req, (err, fields, files) => {
 				if (err) {
-					console.log(err);
+					log({type: "error", msg: err})
 					if (files) {
 						for (let key of Object.keys(files)) {
 							fs.rm(files[key].filepath);
@@ -177,13 +178,15 @@ router.post("/create_verfication_request", async (req, res) => {
 		
 		if (verifactionUploaded.error) {
 			for (let path of formParsed.filePaths) {
-				fs.rm(path);
+				fs.rm(path, () => {});
 			}
 		}
 
 		return res.status(verifactionUploaded.code).json(verifactionUploaded);
 	} catch (err) {
-		return res.status(err.code).json(err);
+		log({type: "error", msg: err})
+		
+		return res.status(500).json(err);
 	}
 })
 

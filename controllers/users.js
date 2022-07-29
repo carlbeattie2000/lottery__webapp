@@ -2,6 +2,7 @@ const { isValidObjectId } = require("mongoose");
 const usersModel = require("../models/user.js");
 const accountVerficationModel = require("../models/account_confirmation.js");
 const { URL } = require("url");
+const log = require("../utils/logger");
 
 /* 
 
@@ -144,6 +145,8 @@ async function register({
 			data: userRegistered
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -204,6 +207,8 @@ async function login({
 			data: usersAccountFoundToObject
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -249,6 +254,8 @@ async function setCap({
 			data: userUpdated
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -266,6 +273,24 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 			images_required: 1
 		}
 	};
+
+	const userDocument = await usersModel.findById(id);
+
+	if (!userDocument) {
+		return {
+			error: true,
+			code: 404,
+			msg: "User not found"
+		}
+	}
+
+	if (userDocument.confirmed || userDocument.blacked_listed) {
+		return {
+			error :true,
+			code: 400,
+			msg: "Your account is already verified"
+		}
+	}
 
 	if (!id || !document_type || !image_urls || typeof image_urls !== "object" || image_urls.length === 0) {
 		return {
@@ -306,6 +331,8 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 			}
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -329,6 +356,8 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 		}
 
 	} catch (err) {
+		log({type: "error", msg: error});
+
 		if (err.code === 11000) {
 			return {
 				error: true,
@@ -397,6 +426,8 @@ async function deposit({ id, amount }) {
 			data: newUserTransaction
 		}
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
@@ -477,6 +508,8 @@ async function payForGame({ id, cost, quantity }) {
 
 		return addUserTransaction
 	} catch (err) {
+		log({type: "error", msg: err});
+
 		return {
 			error: true,
 			code: 500,
