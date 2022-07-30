@@ -57,5 +57,13 @@ router.get("/results", (req, res) => {
 router.get("/ticket/id", (req, res) => {
 
 })
+
+router.get("/about", (req, res) => {
+
+})
+
+router.get("/contact", (req, res) => {
+	
+})
  
 module.exports = router;
