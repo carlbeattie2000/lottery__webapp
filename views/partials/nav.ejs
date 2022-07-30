@@ -1,7 +1,7 @@
 <head>
 	<link rel="stylesheet" href="/css/nav.css">
 </head>
-<nav class="core-nav">
+<nav class="core-nav" id="nav">
 	<div class="core-nav--logo">
 		<a href="/">
 			<img src="/images/core/Logo_01.png" alt="lucky-lotto logo">
@@ -17,4 +17,41 @@
 		<li class="white-bordered"><a href="/login">Join</a></li>
 		<li class="non-bordered"><a href="/Register">Sign In</a></li>
 	</ul>
+
+	<div class="mobile-toggle-btn">
+		<a id="mobile-nav-close-button"><img src="/images/icons/svgs/icons8-close-50.svg"></a>
+	</div>
 </nav>
+
+<div class="mobile-nav-open-button" id="mobile-nav-open-btn-container">
+	<div><img src="/images/core/Logo_01.png" alt="lucky-lotto logo" class="logo"></div>
+	<div><a id="mobile-nav-open-button"><img src="/images/icons/svgs/icons8-menu-50.svg"></a></div>
+</div>
+
+<script>
+		let mobileNavStatus = false;
+		const mobileNav = document.getElementById("nav")
+		const mobileNavOpenBtn = document.getElementById("mobile-nav-open-button")
+		const mobileNavOpenBtnContainer = document.getElementById("mobile-nav-open-btn-container");
+
+		function toggleMobileNav() {
+			if (mobileNavStatus) {
+				mobileNav.style.display = "none";
+				mobileNavOpenBtn.style.display = "block";
+				mobileNavOpenBtnContainer.style.display = "grid";
+
+				mobileNavStatus = !mobileNavStatus;
+
+				return
+			}
+
+			mobileNav.style.display = "flex";
+			mobileNavOpenBtnContainer.style.display = "none";
+			mobileNavOpenBtn.style.display = "none";
+
+			mobileNavStatus = !mobileNavStatus;
+		}
+
+		document.getElementById("mobile-nav-close-button").addEventListener("click", toggleMobileNav);
+		mobileNavOpenBtn.addEventListener("click", toggleMobileNav);
+	</script>
