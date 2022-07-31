@@ -19,7 +19,7 @@
 
 		 <div class="input-container">
 		 	<label>Password</label>
-		 	<input type="text" name="password">
+		 	<input type="password" name="password">
 		 </div>
 
 		 <div class="input-container">
@@ -90,7 +90,7 @@
 			}
 
 			if (serverResponse.data.needsToVerify) {
-				return window.location.href = "/submit_verifaction"
+				return window.location.href = "/confirm_account"
 			}
 
 			window.location.href = "/";

@@ -15,7 +15,11 @@ router.get("/register", (req, res) => {
 })
 
 router.get("/confirm_account", (req, res) => {
-	
+	if (!req.session.loggedin) {
+		return res.redirect("/login");
+	}
+
+	res.render("confirm_account");
 })
 
 router.get("/home", (req, res) => {
