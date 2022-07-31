@@ -1,0 +1,68 @@
+.error-box {
+  display: none;
+  justify-content: center;
+  margin-top: 1rem; }
+  .error-box .error-message-container {
+    display: flex;
+    justify-content: center;
+    background-color: #c86464;
+    width: 70%;
+    padding: 1rem;
+    border-radius: 1rem; }
+    .error-box .error-message-container p {
+      color: #fdfdfd;
+      font-size: 1.5rem;
+      font-weight: 800; }
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5rem;
+  align-items: center;
+  height: 90vh; }
+  .login-form .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 15%; }
+    .login-form .input-container label {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #323232; }
+    .login-form .input-container input {
+      padding: .5rem;
+      width: 100%;
+      border-radius: .4rem;
+      border: 0.1rem solid #000080;
+      font-size: 1.5rem;
+      color: #323232; }
+      .login-form .input-container input:focus {
+        outline: none; }
+    .login-form .input-container button {
+      font-size: 1.5rem;
+      background-color: transparent;
+      color: #000080;
+      padding: 1rem;
+      border: 0.1rem solid #000080;
+      border-radius: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color .5s ease-in-out, background-color .5s ease-in-out; }
+      .login-form .input-container button:hover {
+        background-color: #000080;
+        color: #fdfdfd; }
+
+@media only screen and (max-width: 1500px) {
+  .login-form .input-container {
+    width: 40%; } }
+
+@media only screen and (max-width: 1400px) {
+  .login-form .input-container {
+    width: 50%; } }
+
+@media only screen and (max-width: 900px) {
+  .login-form .input-container {
+    width: 90%; } }

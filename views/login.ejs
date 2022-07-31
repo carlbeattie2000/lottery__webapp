@@ -1,7 +1,97 @@
 <%- include("./partials/header") %>
 <head>
-	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
 	<%- include("./partials/nav.ejs") %>
+
+	<div class="error-box" id="login-error-box">
+		<div class="error-message-container">
+			<p id="message">Failed!!</p>
+		</div>
+	</div>
+
+	<form class="login-form" id="login-form">
+		 <div class="input-container">
+		 	<label>Email</label>
+		 	<input type="text" name="email">
+		 </div> 
+
+		 <div class="input-container">
+		 	<label>Password</label>
+		 	<input type="text" name="password">
+		 </div>
+
+		 <div class="input-container">
+		 	<button>Sign In</button>
+		 </div>
+	</form>
+
+	<script>
+		// Send login form data to server
+		const errorBox = document.getElementById("login-error-box");
+		const errorMessageBox = document.getElementById("message");
+
+		const loginForm = document.getElementById("login-form");
+
+		function onError(message) {
+			if (errorBox.style.display === "") {
+				errorBox.style.display = "flex";
+
+				errorMessageBox.textContent = message;
+
+				return
+			}
+
+			errorMessageBox.textContent = message;
+		}
+
+		async function onLoginFormSubmit(e) {
+			e.preventDefault();
+
+			const formInputs = Array.from(e.target.getElementsByTagName("input"));
+
+			// Make sure all inputs are valid
+			const formDataJson = {};
+
+			let error = false;
+
+			for (let input of formInputs) {
+				input.style.backgroundColor = "transparent";
+
+				if (!input.value) {
+					input.style.backgroundColor = "rgba(200, 100, 100, .2)";
+					onError("Some fields are missing inputs!");
+
+					error = true;
+
+					continue
+				}
+
+				if (input.name !== "") {
+					formDataJson[input.name] = input.value;
+				}
+			}
+
+			if (error) return;
+
+			const sendForm = await fetch("/api/login", {
+				method: "POST",
+				headers: {
+			      'Content-Type': 'application/json',
+    			},
+				body: JSON.stringify(formDataJson)
+			})
+
+			const serverResponse = await sendForm.json();
+
+			if (serverResponse.error) {
+				return onError(`[${serverResponse.code}]: `+serverResponse.msg);
+			}
+
+			window.location.href = "/";
+		}
+
+		loginForm.addEventListener("submit", onLoginFormSubmit);
+	</script>
 </body>

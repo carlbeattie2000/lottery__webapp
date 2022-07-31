@@ -1,0 +1,100 @@
+@import "./utils/variables";
+
+.error-box {
+	display: none;
+	justify-content: center;
+	margin-top: 1rem;
+
+	.error-message-container {
+		display: flex;
+		justify-content: center;
+		background-color: rgb(200, 100, 100);
+		width: 70%;
+		padding: 1rem;
+		border-radius: 1rem;
+
+		p {
+			color: $white;
+			font-size: $s-font;
+			font-weight: 800;
+		}
+	}
+}
+
+.login-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 5rem;
+	align-items: center;
+	height: 90vh;
+
+	.input-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		width: 15%;
+
+		label {
+			font-size: $s-font;
+			font-weight: 600;
+			color: rgb(50, 50, 50);
+		}
+
+		input {
+			padding: .5rem;
+			width: 100%;
+			border-radius: .4rem;
+			border: .1rem solid $bg;
+			font-size: $s-font;
+			color: rgb(50, 50, 50);
+
+			&:focus {
+				outline: none;
+			}
+		}
+
+		button {
+			font-size: $s-font;
+			background-color: transparent;
+			color: $bg;
+			padding: 1rem;
+			border: .1rem solid $bg;
+			border-radius: 1rem;
+			font-weight: 800;
+			text-transform: uppercase;
+			cursor: pointer;
+			transition: color .5s ease-in-out, background-color .5s ease-in-out;
+
+			&:hover {
+				background-color: $bg;
+				color: $white;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 1500px) {
+	.login-form {
+		.input-container {
+			width: 40%;
+		}
+	}
+}
+
+@media only screen and (max-width: 1400px) {
+	.login-form {
+		.input-container {
+			width: 50%;
+		}
+	}
+}
+
+@media only screen and (max-width: 900px) {
+	.login-form {
+		.input-container {
+			width: 90%;
+		}
+	}
+}
