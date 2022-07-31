@@ -1,6 +1,7 @@
 const { isValidObjectId } = require("mongoose");
 const usersModel = require("../models/user.js");
 const accountVerficationModel = require("../models/account_confirmation.js");
+const verifactionController = require("./verifaction.js");
 const { URL } = require("url");
 const log = require("../utils/logger");
 
@@ -94,7 +95,7 @@ async function register({
 	if (!first_name || !last_name || !email || !password || !dob) {
 		return {
 			error: true,
-			code: 401,
+			code: 400,
 			msg: "Missing fields"
 		}
 	}
@@ -102,30 +103,46 @@ async function register({
 	if ((first_name.length || middle_names.length || last_name.length || email.length || password.length) > 150) {
 		return {
 			error: true,
-			code: 401,
+			code: 400,
 			msg: "Exceded max characters in a string"
 		}
 	}
 
-	if (!dob instanceof Date) {
+	dob = new Date(dob);
+
+	if (!(dob instanceof Date)) {
 		return {
 			error: true,
-			code: 401,
+			code: 400,
 			msg: "Date of birth is not a valid date"
 		}
 	}
 
-	// age verification
+	const dateNow = new Date();
 
-	/* 
-		GET current year & GET users birth year
+	const minUserBirthYear = dateNow.getFullYear() - process.env.SITE_MIN_AGE;
 
-		VAR current year - VAR users birthyear
-			IS this larger than age requirement
-				IF YES then user has passed the age checks
+	const ageError = {
+		error: true,
+		code: 400,
+		msg: "Age Does Not Meet Requirements"
+	} 
 
-				IF NO is it equal to the 
-	*/
+	if (dob.getFullYear() > minUserBirthYear) {
+		return ageError
+	}
+
+	if (dob.getFullYear() === minUserBirthYear) {
+		if (dob.getMonth() > dateNow.getMonth()) {
+			return ageError
+		}
+
+		if (dob.getMonth() === dateNow.getMonth()) {
+			if (dob.getDay() > dateNow.getDay()) {
+				return ageError
+			}
+		}
+	}
 
 	try {
 		const user = new usersModel({
@@ -201,6 +218,14 @@ async function login({
 		delete usersAccountFoundToObject.password;
 		delete usersAccountFoundToObject.password_salt;
 
+		const hasUserConfirmedAccount = await verifactionController.userHasRequestedVerifaction(usersAccountFoundToObject._id);
+
+		usersAccountFoundToObject.needsToVerify = false;
+
+		if (!hasUserConfirmedAccount && !usersAccountFoundToObject.confirmed) {
+			usersAccountFoundToObject.needsToVerify = true;
+		}
+
 		return {
 			error: false,
 			code: 200,
@@ -274,24 +299,6 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 		}
 	};
 
-	const userDocument = await usersModel.findById(id);
-
-	if (!userDocument) {
-		return {
-			error: true,
-			code: 404,
-			msg: "User not found"
-		}
-	}
-
-	if (userDocument.confirmed || userDocument.blacked_listed) {
-		return {
-			error :true,
-			code: 400,
-			msg: "Your account is already verified"
-		}
-	}
-
 	if (!id || !document_type || !image_urls || typeof image_urls !== "object" || image_urls.length === 0) {
 		return {
 			error: true,
@@ -313,6 +320,34 @@ async function uploadAccountConfirmationDocuments({ id, document_type, image_url
 			error: true,
 			code: 401,
 			msg: "Invalid account id"
+		}
+	}
+
+	const userDocument = await usersModel.findById(id);
+
+	if (!userDocument) {
+		return {
+			error: true,
+			code: 404,
+			msg: "User not found"
+		}
+	}
+
+	if (userDocument.confirmed || userDocument.blacked_listed) {
+		return {
+			error :true,
+			code: 400,
+			msg: "Your account is already verified"
+		}
+	}
+
+	const verifactionDocument = await accountVerficationModel.findOne({ account_id: id });
+
+	if (verifactionDocument) {
+		return {
+			error: true,
+			code: 400,
+			msg: "You have already submitted your verifaction request"
 		}
 	}
 

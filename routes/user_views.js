@@ -7,15 +7,19 @@ router.get("/", (req, res) => {
 })
 
 router.get("/login", (req, res) => {
-
+	res.render("login");
 })
 
 router.get("/register", (req, res) => {
-
+	res.render("register");	
 })
 
 router.get("/confirm_account", (req, res) => {
-	
+	if (!req.session.loggedin) {
+		return res.redirect("/login");
+	}
+
+	res.render("confirm_account");
 })
 
 router.get("/home", (req, res) => {
@@ -56,6 +60,14 @@ router.get("/results", (req, res) => {
 
 router.get("/ticket/id", (req, res) => {
 
+})
+
+router.get("/about", (req, res) => {
+
+})
+
+router.get("/contact", (req, res) => {
+	
 })
  
 module.exports = router;

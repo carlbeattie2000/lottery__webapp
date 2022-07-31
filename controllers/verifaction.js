@@ -221,9 +221,18 @@ async function declineVerifactionRequest(requestId) {
 	}
 }
 
+async function userHasRequestedVerifaction(user_id="") {
+	const userRequestFound = await verifactionModel.findOne({ account_id: user_id }).select("_id");
+
+	if (!userRequestFound) return false
+
+	return true
+}
+
 module.exports = {
 	findVerifactionRequestById,
 	getVerifactionDocuments,
 	confirmVerifactionRequest,
-	declineVerifactionRequest
+	declineVerifactionRequest,
+	userHasRequestedVerifaction
 }

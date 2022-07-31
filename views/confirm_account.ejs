@@ -1,0 +1,64 @@
+<%- include("./partials/header") %>
+<head>
+	<link rel="stylesheet" href="/css/confirm_account.css">
+</head>
+<body>
+	<%- include("./partials/nav.ejs") %>
+
+	<form class="confirm-account-form">
+		<div class="input-box">
+			<label>Upload Type</label>
+			<select value="licence" id="uploadTypeSelect">
+				<option value="licence">Licence</option>
+				<option value="passport">Passport</option>
+			</select>
+		</div>
+
+		<div class="input-box" id="image-upload-1-box">
+			<label>Font Image</label>
+			<label for="image-upload-1" class="image-upload-btn"><img src="/images/icons/svgs/icons8-upload-to-the-cloud-50.svg"></label>
+			<input type="file" name="image-upload-1" class="image-input" id="image-upload-1">
+		</div>
+
+		<div class="input-box" id="image-upload-2-box">
+			<label>Back Image</label>
+			<label for="image-upload-2" class="image-upload-btn"><img src="/images/icons/svgs/icons8-upload-to-the-cloud-50.svg"></label>
+			<input type="file" name="image-upload-2" class="image-input" id="image-upload-2">
+		</div>
+
+		<div class="input-box" id="image-upload-2-box">
+			<button>upload</button>
+		</div>
+	</form>
+
+	<script>
+		const uploadTypeSelectBox = document.getElementById("uploadTypeSelect");
+
+		const uploadTypeOptions = {
+			"licence": {
+				images: 2
+			},
+			"passport": {
+				images: 1
+			}
+		}
+
+		let selectedImageInputs = [];
+
+		uploadTypeSelectBox.addEventListener("change", () => {
+			const uploadTypeOptionsSelected = uploadTypeOptions[uploadTypeSelectBox.value];
+
+			if (!uploadTypeOptionsSelected) return;
+
+			if (uploadTypeOptionsSelected.images === 1) {
+				document.getElementById("image-upload-2-box").style.display = "none";
+				selectedImageInputs = ["image-upload-1"]
+				return
+			}
+
+			document.getElementById("image-upload-2-box").style.display = "flex";
+			selectedImageInputs = ["image-upload-1", "image-upload-2"];
+
+		})
+	</script>
+</body>

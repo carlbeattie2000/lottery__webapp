@@ -2,14 +2,210 @@
 
 .core-nav {
 	background-color: $bg;
-	padding: .5rem;
-	ul {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: 1rem;
+
+	.mobile-toggle-btn {
+		display: none;
+	}
+
+	&--logo {
+		padding: 1rem;
+		border-radius: 1.5rem;
+		transition: background-color .3s ease-in-out;
+		img {
+			width: 10rem;
+		}
+
+		&:hover {
+			background-color: $bg-hover;
+		}
+	}
+
+	&--links {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 2rem;
+		list-style: none;
+
 		li {
+			padding: 1rem;
+			border-radius: 1.5rem;
+			transition: background-color .3s ease-in-out;
+			text-align: center;
+			cursor: pointer;
 			a {
-				font-size: $m-font;
 				color: $white;
+				font-size: 1.4rem;
+				text-decoration: none;
+				font-weight: 800;
+				text-transform: uppercase;
+			}
+			&:hover {
+				background-color: $bg-hover;
+			}
+		}
+	}
+
+	&--actions {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
+		list-style: none;
+
+		li {
+			padding: 1rem;
+			border-radius: 1.5rem;
+			transition: background-color .3s ease-in-out, border-color .3s ease-in-out;
+			text-align: center;
+			border: .1rem solid transparent;
+			cursor: pointer;
+			a {
+				color: $white;
+				font-size: 1.4rem;
+				text-decoration: none;
+				transition: color .3s ease-in-out;
+				text-transform: uppercase;
+				font-weight: 800;
+			}
+		}
+
+		.white-bordered {
+				border: .1rem solid $white;
+				border-radius: 1.5rem;
+				&:hover {
+					background-color: rgba(255, 255, 255, 0.3);
+				}
+		}
+
+		.non-bordered {
+			color: $bg;
+			background-color: $white;
+			&:hover {
+				background-color: $bg-hover;
+				border-color: transparent;
+				a {
+					color: $white;
+				}
+			}
+
+			a {
+				color: $bg;
 			}
 		}
 	}
 }
 
+.mobile-nav-open-button {
+	display: none;
+}
+
+
+@media only screen and (max-width: 900px) {
+  .core-nav {
+	flex-direction: column;
+	justify-content: none;
+	align-items: none;
+	padding: .5rem;
+	gap: 1.5rem;
+	display: none;
+
+	.mobile-toggle-btn {
+		display: flex;
+	}
+
+	&--logo {
+		padding: .5rem;
+		img {
+			width: 10rem;
+		}
+	}
+
+	&--links {
+		grid-template-columns: repeat(1, 1fr);
+		gap: 1rem;
+
+		li {
+			padding: .5rem;
+			a {
+				color: $white;
+				font-size: 1.5rem;
+			}
+			&:hover {
+				background-color: $bg-hover;
+			}
+		}
+	}
+
+	&--actions {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
+		list-style: none;
+
+		li {
+			padding: 1rem;
+			border-radius: 1.5rem;
+			transition: background-color .3s ease-in-out, border-color .3s ease-in-out;
+			text-align: center;
+			border: .1rem solid transparent;
+			cursor: pointer;
+			a {
+				color: $white;
+				font-size: 1.5rem;
+				text-decoration: none;
+				transition: color .3s ease-in-out;
+				text-transform: uppercase;
+				font-weight: 800;
+			}
+		}
+
+		.white-bordered {
+				border: .1rem solid $white;
+				border-radius: 1.5rem;
+				&:hover {
+					background-color: rgba(255, 255, 255, 0.3);
+				}
+		}
+
+		.non-bordered {
+			color: $bg;
+			background-color: $white;
+			&:hover {
+				background-color: $bg-hover;
+				border-color: transparent;
+				a {
+					color: $white;
+				}
+			}
+
+			a {
+				color: $bg;
+			}
+		}
+	}
+}
+
+.mobile-nav-open-button {
+	display: grid;
+	grid-template-columns: 99% 1%;
+	background-color: $bg;
+	padding: 1rem;
+
+	div:first-child {
+		display: flex;
+		justify-content: center;
+	}
+
+	div {
+		display: flex;
+		justify-content: flex-end;
+
+		.logo {
+			width: 10rem;
+		}
+	}
+}
+}

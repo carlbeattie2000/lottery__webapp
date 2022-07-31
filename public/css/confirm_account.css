@@ -1,0 +1,76 @@
+.error-box {
+  display: none;
+  justify-content: center;
+  margin-top: 1rem; }
+  .error-box .error-message-container {
+    display: flex;
+    justify-content: center;
+    background-color: #c86464;
+    width: 70%;
+    padding: 1rem;
+    border-radius: 1rem; }
+    .error-box .error-message-container p {
+      color: #fdfdfd;
+      font-size: 1.5rem;
+      font-weight: 800; }
+
+.confirm-account-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5rem;
+  align-items: center;
+  height: 90vh; }
+  .confirm-account-form .input-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 15%; }
+    .confirm-account-form .input-box .image-input {
+      display: none; }
+    .confirm-account-form .input-box .image-upload-btn {
+      cursor: pointer;
+      transition: transform .2s ease-in-out; }
+      .confirm-account-form .input-box .image-upload-btn:hover {
+        transform: scale(110%); }
+    .confirm-account-form .input-box label {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #323232; }
+    .confirm-account-form .input-box input, .confirm-account-form .input-box select {
+      padding: .5rem;
+      width: 100%;
+      border-radius: .4rem;
+      border: 0.1rem solid #000080;
+      font-size: 1.5rem;
+      color: #323232;
+      background-color: transparent; }
+      .confirm-account-form .input-box input:focus, .confirm-account-form .input-box select:focus {
+        outline: none; }
+    .confirm-account-form .input-box button {
+      font-size: 1.5rem;
+      background-color: transparent;
+      color: #000080;
+      padding: 1rem;
+      border: 0.1rem solid #000080;
+      border-radius: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color .5s ease-in-out, background-color .5s ease-in-out; }
+      .confirm-account-form .input-box button:hover {
+        background-color: #000080;
+        color: #fdfdfd; }
+
+@media only screen and (max-width: 1500px) {
+  .confirm-account-form .input-box {
+    width: 40%; } }
+
+@media only screen and (max-width: 1400px) {
+  .confirm-account-form .input-box {
+    width: 50%; } }
+
+@media only screen and (max-width: 900px) {
+  .confirm-account-form .input-box {
+    width: 90%; } }

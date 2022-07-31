@@ -1,6 +1,144 @@
 .core-nav {
   background-color: #000080;
-  padding: .5rem; }
-  .core-nav ul li a {
-    font-size: 2rem;
-    color: #fdfdfd; }
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem; }
+  .core-nav .mobile-toggle-btn {
+    display: none; }
+  .core-nav--logo {
+    padding: 1rem;
+    border-radius: 1.5rem;
+    transition: background-color .3s ease-in-out; }
+    .core-nav--logo img {
+      width: 10rem; }
+    .core-nav--logo:hover {
+      background-color: #3460F2; }
+  .core-nav--links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    list-style: none; }
+    .core-nav--links li {
+      padding: 1rem;
+      border-radius: 1.5rem;
+      transition: background-color .3s ease-in-out;
+      text-align: center;
+      cursor: pointer; }
+      .core-nav--links li a {
+        color: #fdfdfd;
+        font-size: 1.4rem;
+        text-decoration: none;
+        font-weight: 800;
+        text-transform: uppercase; }
+      .core-nav--links li:hover {
+        background-color: #3460F2; }
+  .core-nav--actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    list-style: none; }
+    .core-nav--actions li {
+      padding: 1rem;
+      border-radius: 1.5rem;
+      transition: background-color .3s ease-in-out, border-color .3s ease-in-out;
+      text-align: center;
+      border: .1rem solid transparent;
+      cursor: pointer; }
+      .core-nav--actions li a {
+        color: #fdfdfd;
+        font-size: 1.4rem;
+        text-decoration: none;
+        transition: color .3s ease-in-out;
+        text-transform: uppercase;
+        font-weight: 800; }
+    .core-nav--actions .white-bordered {
+      border: 0.1rem solid #fdfdfd;
+      border-radius: 1.5rem; }
+      .core-nav--actions .white-bordered:hover {
+        background-color: rgba(255, 255, 255, 0.3); }
+    .core-nav--actions .non-bordered {
+      color: #000080;
+      background-color: #fdfdfd; }
+      .core-nav--actions .non-bordered:hover {
+        background-color: #3460F2;
+        border-color: transparent; }
+        .core-nav--actions .non-bordered:hover a {
+          color: #fdfdfd; }
+      .core-nav--actions .non-bordered a {
+        color: #000080; }
+
+.mobile-nav-open-button {
+  display: none; }
+
+@media only screen and (max-width: 900px) {
+  .core-nav {
+    flex-direction: column;
+    justify-content: none;
+    align-items: none;
+    padding: .5rem;
+    gap: 1.5rem;
+    display: none; }
+    .core-nav .mobile-toggle-btn {
+      display: flex; }
+    .core-nav--logo {
+      padding: .5rem; }
+      .core-nav--logo img {
+        width: 10rem; }
+    .core-nav--links {
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1rem; }
+      .core-nav--links li {
+        padding: .5rem; }
+        .core-nav--links li a {
+          color: #fdfdfd;
+          font-size: 1.5rem; }
+        .core-nav--links li:hover {
+          background-color: #3460F2; }
+    .core-nav--actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      list-style: none; }
+      .core-nav--actions li {
+        padding: 1rem;
+        border-radius: 1.5rem;
+        transition: background-color .3s ease-in-out, border-color .3s ease-in-out;
+        text-align: center;
+        border: .1rem solid transparent;
+        cursor: pointer; }
+        .core-nav--actions li a {
+          color: #fdfdfd;
+          font-size: 1.5rem;
+          text-decoration: none;
+          transition: color .3s ease-in-out;
+          text-transform: uppercase;
+          font-weight: 800; }
+      .core-nav--actions .white-bordered {
+        border: 0.1rem solid #fdfdfd;
+        border-radius: 1.5rem; }
+        .core-nav--actions .white-bordered:hover {
+          background-color: rgba(255, 255, 255, 0.3); }
+      .core-nav--actions .non-bordered {
+        color: #000080;
+        background-color: #fdfdfd; }
+        .core-nav--actions .non-bordered:hover {
+          background-color: #3460F2;
+          border-color: transparent; }
+          .core-nav--actions .non-bordered:hover a {
+            color: #fdfdfd; }
+        .core-nav--actions .non-bordered a {
+          color: #000080; }
+  .mobile-nav-open-button {
+    display: grid;
+    grid-template-columns: 99% 1%;
+    background-color: #000080;
+    padding: 1rem; }
+    .mobile-nav-open-button div:first-child {
+      display: flex;
+      justify-content: center; }
+    .mobile-nav-open-button div {
+      display: flex;
+      justify-content: flex-end; }
+      .mobile-nav-open-button div .logo {
+        width: 10rem; } }
