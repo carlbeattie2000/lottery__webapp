@@ -89,6 +89,10 @@
 				return onError(`[${serverResponse.code}]: `+serverResponse.msg);
 			}
 
+			if (serverResponse.data.needsToVerify) {
+				return window.location.href = "/submit_verifaction"
+			}
+
 			window.location.href = "/";
 		}
 

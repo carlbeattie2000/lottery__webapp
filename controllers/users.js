@@ -1,6 +1,7 @@
 const { isValidObjectId } = require("mongoose");
 const usersModel = require("../models/user.js");
 const accountVerficationModel = require("../models/account_confirmation.js");
+const verifactionController = require("./verifaction.js");
 const { URL } = require("url");
 const log = require("../utils/logger");
 
@@ -132,8 +133,6 @@ async function register({
 	}
 
 	if (dob.getFullYear() === minUserBirthYear) {
-		console.log(dob.getMonth(), dateNow.getMonth());
-
 		if (dob.getMonth() > dateNow.getMonth()) {
 			return ageError
 		}
@@ -218,6 +217,14 @@ async function login({
 
 		delete usersAccountFoundToObject.password;
 		delete usersAccountFoundToObject.password_salt;
+
+		const hasUserConfirmedAccount = await verifactionController.userHasRequestedVerifaction(usersAccountFoundToObject._id);
+
+		usersAccountFoundToObject.needsToVerify = false;
+
+		if (!hasUserConfirmedAccount && !usersAccountFoundToObject.confirmed) {
+			usersAccountFoundToObject.needsToVerify = true;
+		}
 
 		return {
 			error: false,

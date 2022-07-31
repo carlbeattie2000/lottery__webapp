@@ -31,6 +31,14 @@ router.post("/login", async (req, res) => {
  		return res.status(isUserValid.code).json(isUserValid)
  	}
 
+ 	if (isUserValid.data.blacked_listed) {
+ 		return res.status(401).json({
+ 			error: true,
+ 			code: 401,
+ 			msg: "You don't have access to use this site"
+ 		})
+ 	}
+
  	req.session.user = isUserValid.data;
  	req.session.loggedin = true;
 
