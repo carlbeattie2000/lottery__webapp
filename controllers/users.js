@@ -107,7 +107,9 @@ async function register({
 		}
 	}
 
-	if (!dob instanceof Date) {
+	dob = new Date(dob);
+
+	if (!(dob instanceof Date)) {
 		return {
 			error: true,
 			code: 400,
@@ -115,17 +117,33 @@ async function register({
 		}
 	}
 
-	// age verification
+	const dateNow = new Date();
 
-	/* 
-		GET current year & GET users birth year
+	const minUserBirthYear = dateNow.getFullYear() - process.env.SITE_MIN_AGE;
 
-		VAR current year - VAR users birthyear
-			IS this larger than age requirement
-				IF YES then user has passed the age checks
+	const ageError = {
+		error: true,
+		code: 400,
+		msg: "Age Does Not Meet Requirements"
+	} 
 
-				IF NO is it equal to the 
-	*/
+	if (dob.getFullYear() > minUserBirthYear) {
+		return ageError
+	}
+
+	if (dob.getFullYear() === minUserBirthYear) {
+		console.log(dob.getMonth(), dateNow.getMonth());
+
+		if (dob.getMonth() > dateNow.getMonth()) {
+			return ageError
+		}
+
+		if (dob.getMonth() === dateNow.getMonth()) {
+			if (dob.getDay() > dateNow.getDay()) {
+				return ageError
+			}
+		}
+	}
 
 	try {
 		const user = new usersModel({
