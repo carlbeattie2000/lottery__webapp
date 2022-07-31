@@ -1,5 +1,7 @@
 # lottery__webapp
 
+I have decided to use SSR for the front-end, generally more comfortable using it, and haven't built a project with it for a while. I am using EJS for this particular project.
+
 ## Project requirements
 - MongoDB
 - Gmail or mail service of your choice
