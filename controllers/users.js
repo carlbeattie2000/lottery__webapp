@@ -94,7 +94,7 @@ async function register({
 	if (!first_name || !last_name || !email || !password || !dob) {
 		return {
 			error: true,
-			code: 401,
+			code: 400,
 			msg: "Missing fields"
 		}
 	}
@@ -102,7 +102,7 @@ async function register({
 	if ((first_name.length || middle_names.length || last_name.length || email.length || password.length) > 150) {
 		return {
 			error: true,
-			code: 401,
+			code: 400,
 			msg: "Exceded max characters in a string"
 		}
 	}
@@ -110,7 +110,7 @@ async function register({
 	if (!dob instanceof Date) {
 		return {
 			error: true,
-			code: 401,
+			code: 400,
 			msg: "Date of birth is not a valid date"
 		}
 	}

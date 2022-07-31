@@ -1,7 +1,118 @@
 <%- include("./partials/header") %>
 <head>
-	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="/css/register.css">
 </head>
 <body>
 	<%- include("./partials/nav.ejs") %>
+
+	<div class="error-box" id="register-error-box">
+		<div class="error-message-container">
+			<p id="message">Failed!!</p>
+		</div>
+	</div>
+
+	<form class="register-form" id="register-form">
+		 <div class="input-container">
+		 	<label>First Name</label>
+		 	<input type="text" name="first_name">
+		 </div> 
+
+		 <div class="input-container">
+		 	<label>Middle Names</label>
+		 	<input type="text" name="middle_names">
+		 </div>
+
+		 <div class="input-container">
+		 	<label>Last Name</label>
+		 	<input type="text" name="last_name">
+		 </div>
+
+		 <div class="input-container">
+		 	<label>Email</label>
+		 	<input type="email" name="email">
+		 </div>
+		 
+		 <div class="input-container">
+		 	<label>Password</label>
+		 	<input type="password" name="password">
+		 </div>
+
+		 <div class="input-container">
+		 	<label>Date Of Birth</label>
+		 	<input type="date" name="dob">
+		 </div>
+
+		 <div class="input-container">
+		 	<button>register</button>
+		 </div>
+	</form>
+
+	<script>
+		// Send register form data to server
+		const errorBox = document.getElementById("register-error-box");
+		const errorMessageBox = document.getElementById("message");
+
+		const registerForm = document.getElementById("register-form");
+
+		function onError(message) {
+			console.log(errorBox.style.display);
+			if (errorBox.style.display === "") {
+				errorBox.style.display = "flex";
+
+				errorMessageBox.textContent = message;
+
+				return
+			}
+
+			errorMessageBox.textContent = message;
+		}
+
+		async function onRegisterFormSubmit(e) {
+			e.preventDefault();
+
+			const formInputs = Array.from(e.target.getElementsByTagName("input"));
+
+			// Make sure all inputs are valid
+			const formDataJson = {};
+
+			let error = false;
+
+			for (let input of formInputs) {
+				input.style.backgroundColor = "transparent";
+
+				if (!input.value) {
+					input.style.backgroundColor = "rgba(200, 100, 100, .2)";
+					onError("Some fields are missing inputs!");
+
+					error = true;
+
+					continue
+				}
+
+				if (input.name !== "") {
+					formDataJson[input.name] = input.value;
+				}
+			}
+
+			if (error) return;
+
+			const sendForm = await fetch("/api/register", {
+				method: "POST",
+				headers: {
+			      'Content-Type': 'application/json',
+    			},
+				body: JSON.stringify(formDataJson)
+			})
+
+			const serverResponse = await sendForm.json();
+
+			if (serverResponse.error) {
+				return onError(`[${serverResponse.code}]: `+serverResponse.msg);
+			}
+
+			window.location.href = "/login";
+		}
+
+		registerForm.addEventListener("submit", onRegisterFormSubmit);
+	</script>
 </body>

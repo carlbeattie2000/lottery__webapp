@@ -7,11 +7,11 @@ router.get("/", (req, res) => {
 })
 
 router.get("/login", (req, res) => {
-
+	res.render("login");
 })
 
 router.get("/register", (req, res) => {
-
+	res.render("register");	
 })
 
 router.get("/confirm_account", (req, res) => {
